@@ -13,7 +13,7 @@ export const useResize = (ref: React.RefObject<HTMLElement | null>) => {
       timeout = setTimeout(() => {
         setWidth(entries[0].contentRect.width);
       }, 50);
-    }); // з цим прийшлось трохи погратись, не мав ще досвіду з ним
+    }); // as i understand it's uses like window.addEventListeners for react;
 
     observer.observe(ref.current);
 

@@ -19,7 +19,7 @@ export const Tab = forwardRef<HTMLLIElement, TabComponent>(({ tab, hidden, onRem
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: tab.id });
   const [isClickBlocked, setIsClickBlocked] = useState(false);
 
-  const handleLinkClick = (e: React.MouseEvent) => { // додав захист від перетягування
+  const handleLinkClick = (e: React.MouseEvent) => { // added protection for dragging
     if (isClickBlocked || isDragging) {
       e.preventDefault(); 
     }
