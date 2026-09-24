@@ -1,3 +1,5 @@
+@use '../../styles/variables.scss' as *;
+
 .tab {
   display: flex;
   gap: 10px;
@@ -5,12 +7,20 @@
   padding: 20px 16px;
   box-sizing: border-box;
   cursor: pointer;
+  transition: background, color 300ms ease;
   img {
     width: 16px;
     height: 16px;
   }
 
-  span {
-    font-family: 'Poppins';
+  &--dragging {
+    background: $gray-color;
+    color: #fff;
+    transform-origin: 0 0;
+    white-space: nowrap;
+
+    img {
+      filter: brightness(0) invert(1);
+    }
   }
 }
