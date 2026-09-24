@@ -25,7 +25,7 @@ const initialTabs: TabInterface[] = [
 ]
 
 function App() {
-  const { tabs, onRemove, handleDragEnd } = useTabs(initialTabs);
+  const { tabs, onRemove, handleDragEnd, onTogglePin } = useTabs(initialTabs);
 
 
   return (
@@ -34,6 +34,7 @@ function App() {
         tabs={tabs}
         handleDragEnd={handleDragEnd}
         onRemove={onRemove}
+        onTogglePin={onTogglePin}
       />
     </>
   )

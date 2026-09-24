@@ -10,9 +10,10 @@ interface TabComponent {
   tab: TabInterface;
   hidden?: boolean;
   onRemove?: (id: number) => void;
+  onContextMenu?: (e: React.MouseEvent, tab: TabInterface) => void;
 }
 
-export const Tab = forwardRef<HTMLLIElement, TabComponent>(({ tab, hidden, onRemove }, ref) => {
+export const Tab = forwardRef<HTMLLIElement, TabComponent>(({ tab, hidden, onRemove, onContextMenu }, ref) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: tab.id });
 
   const style = {
@@ -30,6 +31,10 @@ export const Tab = forwardRef<HTMLLIElement, TabComponent>(({ tab, hidden, onRem
         if (typeof ref === 'function') ref(el);
       }}
       style={style}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        onContextMenu?.(e, tab);
+      }}
       {...attributes}
       {...listeners}
     >
@@ -44,7 +49,6 @@ export const Tab = forwardRef<HTMLLIElement, TabComponent>(({ tab, hidden, onRem
             e.stopPropagation();
             onRemove(tab.id);
           }}
-          title="Видалити"
         />
       )}
     </li>

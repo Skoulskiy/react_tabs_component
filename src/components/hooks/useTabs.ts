@@ -31,5 +31,13 @@ export const useTabs = (initialTabs : TabInterface[]) => {
     return setTabs(newTabs);
   }
 
-  return {tabs, setTabs, handleDragEnd, onRemove};
+  const onTogglePin = (id: number) => {
+    setTabs(prevTabs => 
+      prevTabs.map(tab => 
+        tab.id === id ? { ...tab, isPinned: !tab.isPinned } : tab
+      )
+    );
+  };
+
+  return { tabs, setTabs, handleDragEnd, onRemove, onTogglePin };
 }

@@ -9,15 +9,33 @@ import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import { useResize } from '../hooks/useResize';
 import { TabDropdown } from '../TabDropdown';
 
+import PinIcon from '../../assets/icons/pin.svg'
+
 interface TabBarComponent {
   tabs: TabInterface[];
   handleDragEnd: (event: DragEndEvent) => void;
   onRemove: (id: number) => void;
+  onTogglePin: (id: number) => void;
 }
 
-export const TabBar: React.FC<TabBarComponent> = ({ tabs, handleDragEnd, onRemove }) => {
+export const TabBar: React.FC<TabBarComponent> = ({ tabs, handleDragEnd, onRemove, onTogglePin }) => {
   const containerRef = useRef<HTMLElement>(null);
   const tabRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number; tab: TabInterface } | null>(null);
+
+  const handleContextMenu = (e: React.MouseEvent, tab: TabInterface) => {
+    setContextMenu({
+      x: e.clientX,
+      y: e.clientY,
+      tab,
+    });
+  };
+
+  useEffect(() => {
+    const handleClickOutside = () => setContextMenu(null);
+    window.addEventListener('click', handleClickOutside);
+    return () => window.removeEventListener('click', handleClickOutside);
+  }, []);
 
   const containerWidth = useResize(containerRef);
   const tabWidthsRef = useRef<number[]>([]);
@@ -56,11 +74,27 @@ export const TabBar: React.FC<TabBarComponent> = ({ tabs, handleDragEnd, onRemov
                 tab={tab}
                 ref={(el) => { tabRefs.current[index] = el; }}
                 hidden={index >= visibleCount}
+                onContextMenu={handleContextMenu}
                 onRemove={onRemove}
               />
             ))}
           </nav>
-          {hiddenTabs.length > 0 && <TabDropdown hiddenTabs={hiddenTabs} onRemove={onRemove}/>}
+          {hiddenTabs.length > 0 && <TabDropdown hiddenTabs={hiddenTabs} onRemove={onRemove} onContextMenu={handleContextMenu}/>}
+          {contextMenu && (
+            <div 
+              className={styles['context-menu']}
+              style={{ top: `${contextMenu.y}px`, left: `${contextMenu.x}px` }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button onClick={() => {
+                onTogglePin?.(contextMenu.tab.id);
+                setContextMenu(null);
+              }}>
+                <img src={PinIcon} alt='Pin' />
+                {contextMenu.tab.isPinned ? 'Unpin the tab' : 'Tab anpinnen'}
+              </button>
+            </div>
+          )}
         </div>
       </SortableContext>
     </DndContext>
