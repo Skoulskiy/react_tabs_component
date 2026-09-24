@@ -9,10 +9,11 @@ import cn from 'classnames';
 interface TabDropdownComponent {
   hiddenTabs: TabInterface[];
   onRemove: (id: number) => void;
+  onSelect: (url: string) => void;
   onContextMenu?: (e: React.MouseEvent, tab: TabInterface) => void;
 }
 
-export const TabDropdown: React.FC<TabDropdownComponent> = ({ hiddenTabs, onRemove, onContextMenu }) => {
+export const TabDropdown: React.FC<TabDropdownComponent> = ({ hiddenTabs, onRemove, onContextMenu, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [coords, setCoords] = useState({ top: 0, right: 0 });
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -68,6 +69,10 @@ export const TabDropdown: React.FC<TabDropdownComponent> = ({ hiddenTabs, onRemo
                 onContextMenu={(e) => {
                   e.preventDefault();
                   onContextMenu?.(e, tab);
+                }}
+                onClick={() => {
+                  onSelect(tab.url);
+                  setIsOpen(false);
                 }}
               >
                 {tab.icon && <img src={tab.icon} alt={tab.label} />}

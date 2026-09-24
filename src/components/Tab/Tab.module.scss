@@ -14,6 +14,27 @@
   max-width: 180px;  
   white-space: nowrap;
 
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+    min-width: 0;
+    cursor: pointer;
+  }
+
+  &--active {
+    background: rgba(241, 245, 248, 1); 
+    border-top: 2px solid $blue;
+    color: $title-color;
+
+    img {
+      filter: brightness(0);
+    }
+  }
+
   &:not(:last-child):after {
     content: '';
     position: absolute;

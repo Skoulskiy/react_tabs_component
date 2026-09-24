@@ -15,10 +15,12 @@ interface TabBarComponent {
   tabs: TabInterface[];
   handleDragEnd: (event: DragEndEvent) => void;
   onRemove: (id: number) => void;
+  currentPath: string;
+  onSelect: (url: string) => void;
   onTogglePin: (id: number) => void;
 }
 
-export const TabBar: React.FC<TabBarComponent> = ({ tabs, handleDragEnd, onRemove, onTogglePin }) => {
+export const TabBar: React.FC<TabBarComponent> = ({ tabs, handleDragEnd, onRemove, onTogglePin, currentPath, onSelect }) => {
   const containerRef = useRef<HTMLElement>(null);
   const tabRefs = useRef<(HTMLLIElement | null)[]>([]);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; tab: TabInterface } | null>(null);
@@ -74,12 +76,18 @@ export const TabBar: React.FC<TabBarComponent> = ({ tabs, handleDragEnd, onRemov
                 tab={tab}
                 ref={(el) => { tabRefs.current[index] = el; }}
                 hidden={index >= visibleCount}
+                isActive={currentPath === tab.url}
                 onContextMenu={handleContextMenu}
                 onRemove={onRemove}
               />
             ))}
           </nav>
-          {hiddenTabs.length > 0 && <TabDropdown hiddenTabs={hiddenTabs} onRemove={onRemove} onContextMenu={handleContextMenu}/>}
+          {hiddenTabs.length > 0 && <TabDropdown 
+            hiddenTabs={hiddenTabs} 
+            onRemove={onRemove}
+            onContextMenu={handleContextMenu} 
+            onSelect={onSelect}
+          />}
           {contextMenu && (
             <div 
               className={styles['context-menu']}
