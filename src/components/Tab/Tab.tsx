@@ -9,9 +9,10 @@ import { CSS } from '@dnd-kit/utilities';
 interface TabComponent {
   tab: TabInterface;
   hidden?: boolean;
+  onRemove?: (id: number) => void;
 }
 
-export const Tab = forwardRef<HTMLLIElement, TabComponent>(({ tab, hidden }, ref) => { // прийшлось використовувати forwardRef
+export const Tab = forwardRef<HTMLLIElement, TabComponent>(({ tab, hidden, onRemove }, ref) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: tab.id });
 
   const style = {
@@ -19,6 +20,7 @@ export const Tab = forwardRef<HTMLLIElement, TabComponent>(({ tab, hidden }, ref
     transition,
     display: hidden ? 'none' : 'flex'
   };
+  const isMainTab = tab.id === 1 || tab.url === '/main';
 
   return (
     <li
@@ -27,12 +29,24 @@ export const Tab = forwardRef<HTMLLIElement, TabComponent>(({ tab, hidden }, ref
         setNodeRef(el);
         if (typeof ref === 'function') ref(el);
       }}
+      style={style}
       {...attributes}
       {...listeners}
-      style={style}
     >
       <img src={tab.icon} alt={tab.label} />
-      <span>{tab.label}</span>
+      <span className={styles['tab__label']}>{tab.label}</span>
+      
+      {!isMainTab && onRemove && (
+        <button 
+          className={styles['tab__close']}
+          onPointerDown={(e) => e.stopPropagation()} 
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove(tab.id);
+          }}
+          title="Видалити"
+        />
+      )}
     </li>
   );
 });

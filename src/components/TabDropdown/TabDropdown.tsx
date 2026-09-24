@@ -8,9 +8,10 @@ import cn from 'classnames';
 
 interface TabDropdownComponent {
   hiddenTabs: TabInterface[];
+  onRemove: (id: number) => void;
 }
 
-export const TabDropdown: React.FC<TabDropdownComponent> = ({ hiddenTabs }) => {
+export const TabDropdown: React.FC<TabDropdownComponent> = ({ hiddenTabs, onRemove }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [coords, setCoords] = useState({ top: 0, right: 0 });
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -56,12 +57,26 @@ export const TabDropdown: React.FC<TabDropdownComponent> = ({ hiddenTabs }) => {
           className={styles['dropdown__list']}
           style={{ top: `${coords.top}px`, right: `${coords.right}px` }}
         >
-          {hiddenTabs.map(tab => (
-            <li key={tab.id}>
-              {tab.icon && <img src={tab.icon} alt={tab.label} />}
-              <span>{tab.label}</span>
-            </li>
-          ))}
+          {hiddenTabs.map(tab => {
+            const isMainTab = tab.id === 1 || tab.url === '/main';
+
+            return (
+              <li key={tab.id} className={styles.dropdown__item}>
+                {tab.icon && <img src={tab.icon} alt={tab.label} />}
+                <span>{tab.label}</span>
+                
+                {!isMainTab && (
+                  <button 
+                    className={styles.dropdown__close}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onRemove(tab.id);
+                    }}
+                  />
+                )}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

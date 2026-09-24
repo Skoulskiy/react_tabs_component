@@ -26,5 +26,10 @@ export const useTabs = (initialTabs : TabInterface[]) => {
     })
   }
 
-  return {tabs, setTabs, handleDragEnd};
+  const onRemove = (id: number) => {
+    const newTabs = tabs.filter(tab => tab.id !== id);
+    return setTabs(newTabs);
+  }
+
+  return {tabs, setTabs, handleDragEnd, onRemove};
 }

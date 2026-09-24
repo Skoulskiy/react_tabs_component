@@ -25,15 +25,15 @@ const initialTabs: TabInterface[] = [
 ]
 
 function App() {
-  const { tabs, setTabs, handleDragEnd } = useTabs(initialTabs);
+  const { tabs, onRemove, handleDragEnd } = useTabs(initialTabs);
 
 
   return (
     <>
       <TabBar 
         tabs={tabs}
-        setTabs={setTabs}
         handleDragEnd={handleDragEnd}
+        onRemove={onRemove}
       />
     </>
   )
