@@ -7,10 +7,19 @@
   padding: 20px 16px;
   box-sizing: border-box;
   cursor: pointer;
-  transition: background, color 300ms ease;
+  transition: background 300ms ease, color 300ms ease;
+
   img {
     width: 16px;
     height: 16px;
+  }
+
+  &:hover {
+    color: $title-color;
+
+    img {
+      filter: brightness(0);
+    }
   }
 
   &--dragging {
@@ -21,6 +30,14 @@
 
     img {
       filter: brightness(0) invert(1);
+    }
+
+    &:hover {
+      color: #fff;
+
+      img {
+        filter: brightness(0) invert(1);
+      }
     }
   }
 }
