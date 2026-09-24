@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import './App.css'
 
-import type { Tab } from './components/types/tab';
+import type { TabInterface } from './components/types/tab';
 
-const getIcon = (label: string) => `./assets/icons/${label.toLowerCase()}.svg`;
+import { TabBar } from './components/TabBar';
 
-const initialTabs: Tab[] = [
+const getIcon = (label: string) => `/icons/${label.toLowerCase().replace(/\s+/g, '-')}.svg`;
+
+const initialTabs: TabInterface[] = [
   { id: 1, label: 'Dashboard', url: '/dashboard', icon: getIcon('Dashboard'), isPinned: false },
   { id: 2, label: 'Banking', url: '/banking', icon: getIcon('Banking'), isPinned: false },
   { id: 3, label: 'Telefonie', url: '/telefonie', icon: getIcon('Telefonie'), isPinned: false },
@@ -22,7 +24,7 @@ const initialTabs: Tab[] = [
 ]
 
 function App() {
-  const [tabs, setTabs] = useState<Tab[]>(initialTabs);
+  const [tabs, setTabs] = useState<TabInterface[]>(initialTabs);
 
 
   return (
