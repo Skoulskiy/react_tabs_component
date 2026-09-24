@@ -4,7 +4,7 @@ import type { TabInterface } from './components/types/tab';
 import { TabBar } from './components/TabBar';
 import { useTabs } from './components/hooks/useTabs';
 
-const getIcon = (label: string) => `/icons/${label.toLowerCase().replace(/\s+/g, '-')}.svg`;
+const getIcon = (label: string) => `${import.meta.env.BASE_URL}icons/${label.toLowerCase().replace(/\s+/g, '-')}.svg`;
 
 const initialTabs: TabInterface[] = [
   { id: 1, label: 'Lagerverwaltung', url: '/', icon: getIcon('Main'), isPinned: false },
