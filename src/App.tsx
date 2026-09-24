@@ -1,9 +1,9 @@
-import { useState } from 'react'
 import './App.scss'
 
 import type { TabInterface } from './components/types/tab';
 
 import { TabBar } from './components/TabBar';
+import { useTabs } from './components/hooks/useTabs';
 
 const getIcon = (label: string) => `/icons/${label.toLowerCase().replace(/\s+/g, '-')}.svg`;
 
@@ -24,7 +24,7 @@ const initialTabs: TabInterface[] = [
 ]
 
 function App() {
-  const [tabs, setTabs] = useState<TabInterface[]>(initialTabs);
+  const { tabs, setTabs, handleDragEnd } = useTabs(initialTabs);
 
 
   return (
@@ -32,6 +32,7 @@ function App() {
       <TabBar 
         tabs={tabs}
         setTabs={setTabs}
+        handleDragEnd={handleDragEnd}
       />
     </>
   )
