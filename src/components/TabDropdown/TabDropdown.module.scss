@@ -1,0 +1,88 @@
+@use '../../styles/variables.scss' as *;
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  &__list {
+    position: fixed;
+    list-style: none;
+    padding: 8px 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    z-index: 9999;
+    min-width: 160px;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      cursor: pointer;
+
+      &:hover > span {
+        color: #000;
+      }
+
+      &:hover > img {
+        filter: brightness(0);
+      }
+
+      span {
+        max-width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: $gray-color;
+      }
+    }
+  }
+}
+
+.arrow {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 300ms ease, background-color 300ms ease;
+  
+  &--closed {
+    img {
+      filter: brightness(0);
+    }
+  }
+
+  &--opened {
+    background: $blue;
+    transform: rotate(180deg);
+
+    img {
+      filter: brightness(0) invert(1); 
+    }
+  }
+}
+
+.tab-bar {
+  display: flex;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: visible;
+  min-width: 0; 
+  justify-content: center;
+
+  &-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+}

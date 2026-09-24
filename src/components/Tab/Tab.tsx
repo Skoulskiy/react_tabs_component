@@ -1,31 +1,38 @@
 import styles from './Tab.module.scss';
 import cn from 'classnames';
+import { forwardRef } from 'react';
 
 import type { TabInterface } from "../types/tab";
 import { useSortable } from '@dnd-kit/sortable';
-
 import { CSS } from '@dnd-kit/utilities';
 
 interface TabComponent {
-  tab: TabInterface
-};
+  tab: TabInterface;
+  hidden?: boolean;
+}
 
-export const Tab : React.FC<TabComponent> = ({ tab }) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: tab.id});
+export const Tab = forwardRef<HTMLLIElement, TabComponent>(({ tab, hidden }, ref) => { // прийшлось використовувати forwardRef
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: tab.id });
 
   const style = {
     transform: CSS.Translate.toString(transform),
-    transition
+    transition,
+    display: hidden ? 'none' : 'flex'
   };
 
-  return (<li 
+  return (
+    <li
       className={cn(styles['tab'], { [styles['tab--dragging']]: isDragging })}
-      ref={setNodeRef}
+      ref={(el) => {
+        setNodeRef(el);
+        if (typeof ref === 'function') ref(el);
+      }}
       {...attributes}
       {...listeners}
       style={style}
     >
-    <img src={tab.icon} alt={tab.label}/>
-    <span>{tab.label}</span>
-  </li>);
-} 
+      <img src={tab.icon} alt={tab.label} />
+      <span>{tab.label}</span>
+    </li>
+  );
+});

@@ -22,6 +22,12 @@
     }
   }
 
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   &--dragging {
     background: $gray-color;
     color: #fff;

@@ -1,4 +1,16 @@
 .tab-bar {
   display: flex;
-  gap: 20px;
+  flex: 1;
+  overflow-x: hidden;   
+  overflow-y: visible; 
+  min-width: 0; 
+  justify-content: center;
+
+  &-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: visible; 
+  }
 }
