@@ -16,7 +16,7 @@ interface TabComponent {
 }
 
 export const Tab = forwardRef<HTMLLIElement, TabComponent>(({ tab, hidden, onRemove, onContextMenu, isActive }, ref) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: tab.id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: tab.id, disabled: tab.isPinned });
   const [isClickBlocked, setIsClickBlocked] = useState(false);
 
   const handleLinkClick = (e: React.MouseEvent) => { // added protection for dragging

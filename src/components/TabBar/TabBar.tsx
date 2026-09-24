@@ -26,6 +26,7 @@ export const TabBar: React.FC<TabBarComponent> = ({ tabs, handleDragEnd, onRemov
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; tab: TabInterface } | null>(null);
 
   const handleContextMenu = (e: React.MouseEvent, tab: TabInterface) => {
+    e.preventDefault();
     setContextMenu({
       x: e.clientX,
       y: e.clientY,
@@ -60,7 +61,7 @@ export const TabBar: React.FC<TabBarComponent> = ({ tabs, handleDragEnd, onRemov
       count++;
     }
 
-    setVisibleCount(count);
+    setVisibleCount(count > 0 ? count : 1); 
   }, [containerWidth, tabs]);
 
   const hiddenTabs = tabs.slice(visibleCount);
@@ -70,24 +71,31 @@ export const TabBar: React.FC<TabBarComponent> = ({ tabs, handleDragEnd, onRemov
       <SortableContext items={tabs.map(t => t.id)} strategy={horizontalListSortingStrategy}>
         <div className={styles['tab-bar-wrapper']}>
           <nav className={styles['tab-bar']} ref={containerRef}>
-            {tabs.map((tab, index) => (
-              <Tab
-                key={tab.id}
-                tab={tab}
-                ref={(el) => { tabRefs.current[index] = el; }}
-                hidden={index >= visibleCount}
-                isActive={currentPath === tab.url}
-                onContextMenu={handleContextMenu}
-                onRemove={onRemove}
-              />
-            ))}
+            {tabs.map((tab, index) => {
+              const isHidden = index >= visibleCount;
+              return (
+                <Tab
+                  key={tab.id}
+                  tab={tab}
+                  ref={(el) => { tabRefs.current[index] = el; }}
+                  hidden={isHidden}
+                  isActive={currentPath === tab.url}
+                  onContextMenu={handleContextMenu}
+                  onRemove={onRemove}
+                />
+              );
+            })}
           </nav>
-          {hiddenTabs.length > 0 && <TabDropdown 
-            hiddenTabs={hiddenTabs} 
-            onRemove={onRemove}
-            onContextMenu={handleContextMenu} 
-            onSelect={onSelect}
-          />}
+          
+          {hiddenTabs.length > 0 && (
+            <TabDropdown 
+              hiddenTabs={hiddenTabs} 
+              onRemove={onRemove}
+              onContextMenu={handleContextMenu} 
+              onSelect={onSelect}
+            />
+          )}
+
           {contextMenu && (
             <div 
               className={styles['context-menu']}
@@ -99,7 +107,7 @@ export const TabBar: React.FC<TabBarComponent> = ({ tabs, handleDragEnd, onRemov
                 setContextMenu(null);
               }}>
                 <img src={PinIcon} alt='Pin' />
-                {contextMenu.tab.isPinned ? 'Unpin the tab' : 'Tab anpinnen'}
+                {contextMenu.tab.isPinned ? 'Unpin tab' : 'Pin tab'}
               </button>
             </div>
           )}

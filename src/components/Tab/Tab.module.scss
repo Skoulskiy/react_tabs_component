@@ -67,19 +67,9 @@
       display: none;
     }
   }
-
-  &--active {
-    background: rgba(241, 245, 248, 1); 
-    border-top-color: $blue;
+   &:hover {
     color: $title-color;
-
-    img {
-      filter: brightness(0);
-    }
-  }
-
-  &:hover {
-    color: $title-color;
+    border-top: 2px solid $gray-color;
 
     img {
       filter: brightness(0);
@@ -88,6 +78,16 @@
     .tab__close {
       opacity: 1;
       visibility: visible;
+    }
+  }
+
+  &--active {
+    background: rgba(241, 245, 248, 1); 
+    border-top-color: $blue !important;
+    color: $title-color;
+
+    img {
+      filter: brightness(0);
     }
   }
 

@@ -4,24 +4,27 @@ export const useResize = (ref: React.RefObject<HTMLElement | null>) => {
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    if (!ref.current) return;
+    const element = ref.current;
+    if (!element) return;
 
     let timeout: ReturnType<typeof setTimeout>;
 
-    const observer = new ResizeObserver(entries => {
+    const observer = new ResizeObserver((entries) => {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
-        setWidth(entries[0].contentRect.width);
+        if (entries[0]) {
+          setWidth(entries[0].contentRect.width);
+        }
       }, 50);
-    }); // as i understand it's uses like window.addEventListeners for react;
+    });
 
-    observer.observe(ref.current);
+    observer.observe(element);
 
     return () => {
       observer.disconnect();
       clearTimeout(timeout);
     };
-  }, []);
+  }, [ref]);
 
   return width;
 };
