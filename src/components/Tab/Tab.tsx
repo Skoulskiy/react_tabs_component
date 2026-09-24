@@ -30,7 +30,6 @@ export const Tab = forwardRef<HTMLLIElement, TabComponent>(({ tab, hidden, onRem
     transition,
     display: hidden ? 'none' : 'flex'
   };
-  const isMainTab = tab.id === 1 || tab.url === '/main';
 
   return (
     <li
@@ -55,10 +54,10 @@ export const Tab = forwardRef<HTMLLIElement, TabComponent>(({ tab, hidden, onRem
     >
       <Link to={tab.url} className={styles['tab__link']} onClick={handleLinkClick}>
         {tab.icon && <img src={tab.icon} alt={tab.label} />}
-        <span className={styles['tab__label']}>{tab.label}</span>
+        <span className={styles['tab__label']} title={tab.label}>{tab.label}</span>
       </Link>
       
-      {!isMainTab && onRemove && (
+      {onRemove && (
         <button 
           className={styles['tab__close']}
           onPointerDown={(e) => e.stopPropagation()} 

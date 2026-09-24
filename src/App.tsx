@@ -7,7 +7,7 @@ import { useTabs } from './components/hooks/useTabs';
 const getIcon = (label: string) => `/icons/${label.toLowerCase().replace(/\s+/g, '-')}.svg`;
 
 const initialTabs: TabInterface[] = [
-  { id: 1, label: 'Main', url: '/main', icon: getIcon('Main'), isPinned: false },
+  { id: 1, label: 'Lagerverwaltung', url: '/', icon: getIcon('Main'), isPinned: false },
   { id: 2, label: 'Dashboard', url: '/dashboard', icon: getIcon('Dashboard'), isPinned: false },
   { id: 3, label: 'Banking', url: '/banking', icon: getIcon('Banking'), isPinned: false },
   { id: 4, label: 'Telefonie', url: '/telefonie', icon: getIcon('Telefonie'), isPinned: false },
